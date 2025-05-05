@@ -112,7 +112,9 @@ class TD3(object):
 			noise = (
 				torch.randn_like(action) * self.policy_noise
 			).clamp(-self.noise_clip, self.noise_clip)
-			
+
+			# 可能删去噪声来做对比试验
+			# next_action = self.actor_target(next_state) # 不加噪声			
 			next_action = (
 				self.actor_target(next_state) + noise
 			).clamp(-self.max_action, self.max_action)
