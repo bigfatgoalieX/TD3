@@ -77,6 +77,7 @@ if __name__ == "__main__":
 
     kwargs = {
         "state_dim": state_dim,
+        "mu_dim": 0,
         "action_dim": action_dim,
         "max_action": max_action,
         "discount": args.discount,
