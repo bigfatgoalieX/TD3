@@ -110,3 +110,32 @@ class TargetDomainWrapper(gym.Wrapper):
 			# clip action to valid range
 			return np.clip(noisy_action, self.action_space.low, self.action_space.high)
 		return action
+
+class PhysicsRandomizer:
+    def __init__(self, param_ranges):
+        """
+        param_ranges: dict, e.g.
+        {
+            "gravity": [-15.0, -5.0],
+            "mass": [0.5, 2.0],
+            "friction": [0.1, 1.0],
+        }
+        """
+        self.param_ranges = param_ranges
+        self.param_names = list(param_ranges.keys())
+        self.rng = np.random.default_rng() # 不受seed影响的随机数生成器
+
+    def sample(self):
+        """
+        Returns:
+        - each param in order: gravity_val, mass_val, friction_val, ...
+        - mu: concatenated vector (np.array)
+        """
+        sampled_values = []
+        for name in self.param_names:
+            low, high = self.param_ranges[name]
+            val = self.rng.uniform(low, high)
+            sampled_values.append(val)
+        
+        mu = np.array(sampled_values, dtype=np.float32)
+        return (*sampled_values, mu)
