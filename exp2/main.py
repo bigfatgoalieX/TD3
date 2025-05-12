@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--policy", default="TD3")  # Policy name (TD3, DDPG or OurDDPG)
     parser.add_argument("--env", default="HalfCheetah-v5")  # OpenAI gym environment name
-    parser.add_argument("--seed", default=42, type=int)  # Sets Gym, PyTorch and Numpy seeds
+    parser.add_argument("--seed", default=0, type=int)  # Sets Gym, PyTorch and Numpy seeds
     parser.add_argument("--start_timesteps", default=25e3, type=int)  # Time steps initial random policy is used
     parser.add_argument("--eval_freq", default=5e3, type=int)  # How often (time steps) we evaluate
     parser.add_argument("--max_timesteps", default=1e6, type=int)  # Max time steps to run environment
@@ -57,9 +57,10 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
 
-    file_name = f"{args.policy}_{args.env}_{args.seed}"
+    attempt = 1
+    file_name = f"{args.policy}_{args.env}_{args.seed}_{attempt}"
     print("---------------------------------------")
-    print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
+    print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Attempt: {attempt}")
     print("---------------------------------------")
 
     if not os.path.exists("./results"):
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     
     param_ranges = {
         "gravity_scale": [0.7, 1.3],
-        "friction_scale": [0.6, 1.4],
+        "friction_scale": [0.5, 1.5],
         "mass_scale": [0.8, 1.2],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
@@ -155,14 +156,19 @@ if __name__ == "__main__":
             print(f"Total T: {t+1} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
             
             # 需要确保随机数生成不受seed影响
-            randomizer = utils.PhysicsRandomizer(param_ranges)
+            # randomizer在上面已经创建了
             gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
-            env = utils.TargetDomainWrapper(
-                env,
-                gravity_scale=gravity_scale,
-                friction_scale=friction_scale,
-                mass_scale=mass_scale,
-            )
+            # 重新创建环境并重新用wrapper包装，这样来防止wrapper层层包裹
+            # env.close()
+            # env = gym.make(args.env)
+            # env = utils.TargetDomainWrapper(
+            #     env,
+            #     gravity_scale=gravity_scale,
+            #     friction_scale=friction_scale,
+            #     mass_scale=mass_scale,
+            # )
+            # 重新设置环境参数, 调用在wrapper后env已经具有的update_params方法
+            env.update_params(gravity_scale, friction_scale, mass_scale)
             
             state, _ = env.reset()
             episode_reward = 0

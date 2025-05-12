@@ -62,6 +62,12 @@ class TargetDomainWrapper(gym.Wrapper):
 		self.obs_noise_std = obs_noise_std
 		self.action_noise_std = action_noise_std
 		self.modified = False
+  
+		# 记录原始的物理参数,防止叠加乘法偏出范围（1.2*1.2 = 1.44）
+		self._original_gravity = self.env.unwrapped.model.opt.gravity.copy()
+		self._original_friction = self.env.unwrapped.model.geom_friction.copy()
+		self._original_mass = self.env.unwrapped.model.body_mass.copy()
+
 
 	def reset(self, **kwargs):
 		if not self.modified:
@@ -87,9 +93,11 @@ class TargetDomainWrapper(gym.Wrapper):
 
 	def modify_physics(self):
 		model = self.env.unwrapped.model
-		model.opt.gravity[2] *= self.gravity_scale  # 重力
-		model.geom_friction[:, 0] *= self.friction_scale #摩擦
-		model.body_mass[:] *= self.mass_scale  # 质量
+		# 注意参数都是在原始值的基础上进行缩放，而不是每次叠加乘法
+		model.opt.gravity[2] = self._original_gravity[2] * self.gravity_scale 
+		model.geom_friction[:, 0] = self._original_friction[:, 0] * self.friction_scale
+		model.body_mass[:] = self._original_mass * self.mass_scale
+  
 	
 	def add_obs_noise(self, obs):
 		# 兼容gymnasium的新格式
@@ -110,32 +118,38 @@ class TargetDomainWrapper(gym.Wrapper):
 			# clip action to valid range
 			return np.clip(noisy_action, self.action_space.low, self.action_space.high)
 		return action
+	
+	def update_params(self, gravity_scale=None, friction_scale=None, mass_scale=None): 
+		self.gravity_scale = gravity_scale if gravity_scale is not None else self.gravity_scale
+		self.friction_scale = friction_scale if friction_scale is not None else self.friction_scale
+		self.mass_scale = mass_scale if mass_scale is not None else self.mass_scale
+		self.modified = False
 
 class PhysicsRandomizer:
-    def __init__(self, param_ranges):
-        """
-        param_ranges: dict, e.g.
-        {
-            "gravity": [-15.0, -5.0],
-            "mass": [0.5, 2.0],
-            "friction": [0.1, 1.0],
-        }
-        """
-        self.param_ranges = param_ranges
-        self.param_names = list(param_ranges.keys())
-        self.rng = np.random.default_rng() # 不受seed影响的随机数生成器
+	def __init__(self, param_ranges):
+		"""
+		param_ranges: dict, e.g.
+		{
+			"gravity": [-15.0, -5.0],
+			"mass": [0.5, 2.0],
+			"friction": [0.1, 1.0],
+		}
+		"""
+		self.param_ranges = param_ranges
+		self.param_names = list(param_ranges.keys())
+		self.rng = np.random.default_rng() # 不受seed影响的随机数生成器
 
-    def sample(self):
-        """
-        Returns:
-        - each param in order: gravity_val, mass_val, friction_val, ...
-        - mu: concatenated vector (np.array)
-        """
-        sampled_values = []
-        for name in self.param_names:
-            low, high = self.param_ranges[name]
-            val = self.rng.uniform(low, high)
-            sampled_values.append(val)
-        
-        mu = np.array(sampled_values, dtype=np.float32)
-        return (*sampled_values, mu)
+	def sample(self):
+		"""
+		Returns:
+		- each param in order: gravity_val, mass_val, friction_val, ...
+		- mu: concatenated vector (np.array)
+		"""
+		sampled_values = []
+		for name in self.param_names:
+			low, high = self.param_ranges[name]
+			val = self.rng.uniform(low, high)
+			sampled_values.append(val)
+		
+		mu = np.array(sampled_values, dtype=np.float32)
+		return (*sampled_values, mu)
