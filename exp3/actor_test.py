@@ -11,7 +11,7 @@ max_action = float(env.action_space.high[0])
 
 # ---------- 2. 初始化 actor 并加载参数 ----------
 actor = Actor(state_dim, action_dim, max_action)
-actor.load_state_dict(torch.load("./models/TD3_HalfCheetah-v5_0_actor"))
+actor.load_state_dict(torch.load("./models/TD3_HalfCheetah-v5_42_actor"))
 actor.eval()  # 关闭 Dropout、BN 等
 
 # ---------- 3. 运行测试 ----------

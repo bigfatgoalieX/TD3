@@ -15,13 +15,17 @@ import DDPG
 def eval_policy(policy, env_name, seed, eval_episodes=10):
     eval_env = gym.make(env_name)
     eval_env.reset(seed=seed + 100)
-
+    
+    # 需要获得mu的值来传入，从而进行测试
+    mu = np.array([1.0, 1.0, 1.0])
+    # 在这个eval_env里，暂且将mu固定
+    
     avg_reward = 0.
     for _ in range(eval_episodes):
         state, _ = eval_env.reset()
         done = False
         while not done:
-            action = policy.select_action(np.array(state))
+            action = policy.select_action(np.array(state), mu)
             state, reward, terminated, truncated, _ = eval_env.step(action)
             done = terminated or truncated
             avg_reward += reward
@@ -53,9 +57,10 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
 
-    file_name = f"{args.policy}_{args.env}_{args.seed}"
+    attempt = 4
+    file_name = f"{args.policy}_{args.env}_{args.seed}_{attempt}"
     print("---------------------------------------")
-    print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
+    print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Attempt: {attempt}")
     print("---------------------------------------")
 
     if not os.path.exists("./results"):
@@ -72,11 +77,13 @@ if __name__ == "__main__":
     np.random.seed(args.seed)
 
     state_dim = env.observation_space.shape[0]
+    mu_dim = 3
     action_dim = env.action_space.shape[0]
     max_action = float(env.action_space.high[0])
 
     kwargs = {
         "state_dim": state_dim,
+        "mu_dim": mu_dim,
         "action_dim": action_dim,
         "max_action": max_action,
         "discount": args.discount,
@@ -98,10 +105,24 @@ if __name__ == "__main__":
         policy_file = file_name if args.load_model == "default" else args.load_model
         policy.load(f"./models/{policy_file}")
 
-    replay_buffer = utils.ReplayBuffer(state_dim, action_dim)
+    replay_buffer = utils.ReplayBuffer(state_dim, mu_dim, action_dim)
 
     evaluations = [eval_policy(policy, args.env, args.seed)]
-
+    
+    param_ranges = {
+        "gravity_scale": [0.5, 1.5],
+        "friction_scale": [0.5, 2.5],
+        "mass_scale": [0.6, 1.4],
+    }
+    randomizer = utils.PhysicsRandomizer(param_ranges)
+    gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+    env = utils.TargetDomainWrapper(
+        env,
+        gravity_scale=gravity_scale,
+        friction_scale=friction_scale,
+        mass_scale=mass_scale,
+    )
+    
     state, _ = env.reset()
     episode_reward = 0
     episode_timesteps = 0
@@ -114,15 +135,16 @@ if __name__ == "__main__":
             action = env.action_space.sample()
         else:
             action = (
-                policy.select_action(np.array(state))
+                policy.select_action(np.array(state), mu)
                 + np.random.normal(0, max_action * args.expl_noise, size=action_dim)
             ).clip(-max_action, max_action)
 
         next_state, reward, terminated, truncated, _ = env.step(action)
+        next_mu = mu
         done = terminated or truncated
 
         done_bool = float(done) if episode_timesteps < env.spec.max_episode_steps else 0
-        replay_buffer.add(state, action, next_state, reward, done_bool)
+        replay_buffer.add(state, mu, action, next_state, next_mu, reward, done_bool)
 
         state = next_state
         episode_reward += reward
@@ -132,6 +154,22 @@ if __name__ == "__main__":
 
         if done:
             print(f"Total T: {t+1} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
+            
+            # 需要确保随机数生成不受seed影响
+            # randomizer在上面已经创建了
+            gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+            # 重新创建环境并重新用wrapper包装，这样来防止wrapper层层包裹
+            # env.close()
+            # env = gym.make(args.env)
+            # env = utils.TargetDomainWrapper(
+            #     env,
+            #     gravity_scale=gravity_scale,
+            #     friction_scale=friction_scale,
+            #     mass_scale=mass_scale,
+            # )
+            # 重新设置环境参数, 调用在wrapper后env已经具有的update_params方法
+            env.update_params(gravity_scale, friction_scale, mass_scale)
+            
             state, _ = env.reset()
             episode_reward = 0
             episode_timesteps = 0
