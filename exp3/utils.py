@@ -52,6 +52,7 @@ class TargetDomainWrapper(gym.Wrapper):
 		gravity_scale=1.0, 
 		friction_scale=1.0, 
 		mass_scale=1.0,
+		gear_scale=1.0,
 		obs_noise_std=0.0, 
 		action_noise_std=0.0
 	):
@@ -59,6 +60,7 @@ class TargetDomainWrapper(gym.Wrapper):
 		self.gravity_scale = gravity_scale
 		self.friction_scale = friction_scale
 		self.mass_scale = mass_scale
+		self.gear_scale = gear_scale
 		self.obs_noise_std = obs_noise_std
 		self.action_noise_std = action_noise_std
 		self.modified = False
@@ -67,6 +69,8 @@ class TargetDomainWrapper(gym.Wrapper):
 		self._original_gravity = self.env.unwrapped.model.opt.gravity.copy()
 		self._original_friction = self.env.unwrapped.model.geom_friction.copy()
 		self._original_mass = self.env.unwrapped.model.body_mass.copy()
+		self._original_gear = self.env.unwrapped.model.actuator_gear.copy()
+
 
 
 	def reset(self, **kwargs):
@@ -97,6 +101,7 @@ class TargetDomainWrapper(gym.Wrapper):
 		model.opt.gravity[2] = self._original_gravity[2] * self.gravity_scale 
 		model.geom_friction[:, 0] = self._original_friction[:, 0] * self.friction_scale
 		model.body_mass[:] = self._original_mass * self.mass_scale
+		model.actuator_gear[:] = self._original_gear * self.gear_scale
   
 	
 	def add_obs_noise(self, obs):
@@ -119,10 +124,11 @@ class TargetDomainWrapper(gym.Wrapper):
 			return np.clip(noisy_action, self.action_space.low, self.action_space.high)
 		return action
 	
-	def update_params(self, gravity_scale=None, friction_scale=None, mass_scale=None): 
+	def update_params(self, gravity_scale=None, friction_scale=None, mass_scale=None, gear_scale=None): 
 		self.gravity_scale = gravity_scale if gravity_scale is not None else self.gravity_scale
 		self.friction_scale = friction_scale if friction_scale is not None else self.friction_scale
 		self.mass_scale = mass_scale if mass_scale is not None else self.mass_scale
+		self.gear_scale = gear_scale if gear_scale is not None else self.gear_scale
 		self.modified = False
 
 class PhysicsRandomizer:
@@ -130,9 +136,10 @@ class PhysicsRandomizer:
 		"""
 		param_ranges: dict, e.g.
 		{
-			"gravity": [-15.0, -5.0],
-			"mass": [0.5, 2.0],
-			"friction": [0.1, 1.0],
+			"gravity_scale": [0.5, 1.5],
+			"friction_scale": [0.5, 2.5],
+			"mass_scale": [0.6, 1.4],
+			"gear_scale": [0.8, 1.2],
 		}
 		"""
 		self.param_ranges = param_ranges

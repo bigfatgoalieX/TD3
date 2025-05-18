@@ -26,3 +26,31 @@ TD3_HalfCheetah-v5_0_2:
         mu = np.array([1.0, 1.0, 1.0])
         ...
 ```
+
+TD3_HalfCheetah-v5_0_3:
+```
+    param_ranges = {
+        "gravity_scale": [0.6, 1.4],
+        "friction_scale": [0.5, 2.0],
+        "mass_scale": [0.7, 1.5],
+    }
+    seed = 0
+        def eval_policy():
+        ...
+        mu = np.array([1.0, 1.0, 1.0])
+        ...
+```
+
+TD3_HalfCheetah-v5_0_4:
+```
+    param_ranges = {
+        "gravity_scale": [0.5, 1.5],
+        "friction_scale": [0.5, 2.5],
+        "mass_scale": [0.6, 1.4],
+    }
+    seed = 0
+        def eval_policy():
+        ...
+        mu = np.array([1.0, 1.0, 1.0])
+        ...
+```

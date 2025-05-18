@@ -57,7 +57,7 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
 
-    attempt = 1
+    attempt = 4
     file_name = f"{args.policy}_{args.env}_{args.seed}_{attempt}"
     print("---------------------------------------")
     print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Attempt: {attempt}")
@@ -110,9 +110,9 @@ if __name__ == "__main__":
     evaluations = [eval_policy(policy, args.env, args.seed)]
     
     param_ranges = {
-        "gravity_scale": [0.7, 1.3],
-        "friction_scale": [0.5, 1.5],
-        "mass_scale": [0.8, 1.2],
+        "gravity_scale": [0.5, 1.5],
+        "friction_scale": [0.5, 2.5],
+        "mass_scale": [0.6, 1.4],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
     gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()

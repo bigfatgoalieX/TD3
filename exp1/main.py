@@ -52,8 +52,9 @@ if __name__ == "__main__":
     parser.add_argument("--save_model", action="store_true")  # Save model and optimizer parameters
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
-
-    file_name = f"{args.policy}_{args.env}_{args.seed}"
+    
+    attempt = 4
+    file_name = f"{args.policy}_{args.env}_{args.seed}_dr_{attempt}"
     print("---------------------------------------")
     print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
     print("---------------------------------------")
@@ -101,7 +102,21 @@ if __name__ == "__main__":
     replay_buffer = utils.ReplayBuffer(state_dim, action_dim)
 
     evaluations = [eval_policy(policy, args.env, args.seed)]
-
+    
+    param_ranges = {
+        "gravity_scale": [0.8, 1.2],
+        "friction_scale": [0.7, 1.3],
+        "mass_scale": [0.9, 1.1],
+    }
+    randomizer = utils.PhysicsRandomizer(param_ranges)
+    gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+    env = utils.TargetDomainWrapper(
+        env,
+        gravity_scale=gravity_scale,
+        friction_scale=friction_scale,
+        mass_scale=mass_scale,
+    )
+    
     state, _ = env.reset()
     episode_reward = 0
     episode_timesteps = 0
@@ -132,6 +147,10 @@ if __name__ == "__main__":
 
         if done:
             print(f"Total T: {t+1} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
+            
+            gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+            env.update_params(gravity_scale, friction_scale, mass_scale)
+            
             state, _ = env.reset()
             episode_reward = 0
             episode_timesteps = 0

@@ -113,14 +113,16 @@ if __name__ == "__main__":
         "gravity_scale": [0.5, 1.5],
         "friction_scale": [0.5, 2.5],
         "mass_scale": [0.6, 1.4],
+        "gear_scale": [0.8, 1.2],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
-    gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+    gravity_scale, friction_scale, mass_scale, gear_scale, mu = randomizer.sample()
     env = utils.TargetDomainWrapper(
         env,
         gravity_scale=gravity_scale,
         friction_scale=friction_scale,
         mass_scale=mass_scale,
+        gear_scale=gear_scale,
     )
     
     state, _ = env.reset()
@@ -157,7 +159,7 @@ if __name__ == "__main__":
             
             # 需要确保随机数生成不受seed影响
             # randomizer在上面已经创建了
-            gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+            gravity_scale, friction_scale, mass_scale, gear_scale, mu = randomizer.sample()
             # 重新创建环境并重新用wrapper包装，这样来防止wrapper层层包裹
             # env.close()
             # env = gym.make(args.env)
@@ -166,10 +168,11 @@ if __name__ == "__main__":
             #     gravity_scale=gravity_scale,
             #     friction_scale=friction_scale,
             #     mass_scale=mass_scale,
+            #     gear_scale=gear_scale,
             # )
             # 重新设置环境参数, 调用在wrapper后env已经具有的update_params方法
-            env.update_params(gravity_scale, friction_scale, mass_scale)
-            
+            env.update_params(gravity_scale, friction_scale, mass_scale, gear_scale)
+
             state, _ = env.reset()
             episode_reward = 0
             episode_timesteps = 0
