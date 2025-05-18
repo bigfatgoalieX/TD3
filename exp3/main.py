@@ -17,7 +17,7 @@ def eval_policy(policy, env_name, seed, eval_episodes=10):
     eval_env.reset(seed=seed + 100)
     
     # 需要获得mu的值来传入，从而进行测试
-    mu = np.array([1.0, 1.0, 1.0])
+    mu = np.array([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
     # 在这个eval_env里，暂且将mu固定
     
     avg_reward = 0.
@@ -57,8 +57,8 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
 
-    attempt = 4
-    file_name = f"{args.policy}_{args.env}_{args.seed}_{attempt}"
+    attempt = 1
+    file_name = f"{args.policy}_{args.env}_{args.seed}_highdim_{attempt}"
     print("---------------------------------------")
     print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Attempt: {attempt}")
     print("---------------------------------------")
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     np.random.seed(args.seed)
 
     state_dim = env.observation_space.shape[0]
-    mu_dim = 3
+    mu_dim = 10
     action_dim = env.action_space.shape[0]
     max_action = float(env.action_space.high[0])
 
@@ -112,19 +112,31 @@ if __name__ == "__main__":
     param_ranges = {
         "gravity_scale": [0.5, 1.5],
         "friction_scale": [0.5, 2.5],
-        "mass_scale": [0.6, 1.4],
         "gear_scale": [0.8, 1.2],
+        "torso_mass_scale": [0.7, 1.3],
+        "bthigh_mass_scale": [0.7, 1.3],
+        "bshin_mass_scale": [0.7, 1.3],
+        "bfoot_mass_scale": [0.7, 1.3],
+        "fthigh_mass_scale": [0.7, 1.3],
+        "fshin_mass_scale": [0.7, 1.3],
+        "ffoot_mass_scale": [0.7, 1.3],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
-    gravity_scale, friction_scale, mass_scale, gear_scale, mu = randomizer.sample()
+    gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale, mu = randomizer.sample()
     env = utils.TargetDomainWrapper(
         env,
         gravity_scale=gravity_scale,
         friction_scale=friction_scale,
-        mass_scale=mass_scale,
         gear_scale=gear_scale,
+        torso_mass_scale=torso_mass_scale,
+        bthigh_mass_scale=bthigh_mass_scale,
+        bshin_mass_scale=bshin_mass_scale,
+        bfoot_mass_scale=bfoot_mass_scale,
+        fthigh_mass_scale=fthigh_mass_scale,
+        fshin_mass_scale=fshin_mass_scale,
+        ffoot_mass_scale=ffoot_mass_scale,
     )
-    
+
     state, _ = env.reset()
     episode_reward = 0
     episode_timesteps = 0
@@ -159,19 +171,8 @@ if __name__ == "__main__":
             
             # 需要确保随机数生成不受seed影响
             # randomizer在上面已经创建了
-            gravity_scale, friction_scale, mass_scale, gear_scale, mu = randomizer.sample()
-            # 重新创建环境并重新用wrapper包装，这样来防止wrapper层层包裹
-            # env.close()
-            # env = gym.make(args.env)
-            # env = utils.TargetDomainWrapper(
-            #     env,
-            #     gravity_scale=gravity_scale,
-            #     friction_scale=friction_scale,
-            #     mass_scale=mass_scale,
-            #     gear_scale=gear_scale,
-            # )
-            # 重新设置环境参数, 调用在wrapper后env已经具有的update_params方法
-            env.update_params(gravity_scale, friction_scale, mass_scale, gear_scale)
+            gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale, mu = randomizer.sample()
+            env.update_params(gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale)
 
             state, _ = env.reset()
             episode_reward = 0

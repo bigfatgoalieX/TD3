@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import gymnasium as gym
+import mujoco
 
 
 class ReplayBuffer(object):
@@ -51,16 +52,32 @@ class TargetDomainWrapper(gym.Wrapper):
 	def __init__(self, env, 
 		gravity_scale=1.0, 
 		friction_scale=1.0, 
-		mass_scale=1.0,
 		gear_scale=1.0,
+		world_mass_scale=1.0,
+		torso_mass_scale=1.0,
+		bthigh_mass_scale=1.0,
+		bshin_mass_scale=1.0,
+		bfoot_mass_scale=1.0,
+		fthigh_mass_scale=1.0,
+		fshin_mass_scale=1.0,
+		ffoot_mass_scale=1.0,
 		obs_noise_std=0.0, 
 		action_noise_std=0.0
 	):
 		super().__init__(env)
 		self.gravity_scale = gravity_scale
 		self.friction_scale = friction_scale
-		self.mass_scale = mass_scale
 		self.gear_scale = gear_scale
+  
+		self.world_mass_scale = world_mass_scale
+		self.torso_mass_scale = torso_mass_scale
+		self.bthigh_mass_scale = bthigh_mass_scale
+		self.bshin_mass_scale = bshin_mass_scale
+		self.bfoot_mass_scale = bfoot_mass_scale
+		self.fthigh_mass_scale = fthigh_mass_scale
+		self.fshin_mass_scale = fshin_mass_scale
+		self.ffoot_mass_scale = ffoot_mass_scale
+  
 		self.obs_noise_std = obs_noise_std
 		self.action_noise_std = action_noise_std
 		self.modified = False
@@ -68,8 +85,8 @@ class TargetDomainWrapper(gym.Wrapper):
 		# 记录原始的物理参数,防止叠加乘法偏出范围（1.2*1.2 = 1.44）
 		self._original_gravity = self.env.unwrapped.model.opt.gravity.copy()
 		self._original_friction = self.env.unwrapped.model.geom_friction.copy()
-		self._original_mass = self.env.unwrapped.model.body_mass.copy()
 		self._original_gear = self.env.unwrapped.model.actuator_gear.copy()
+		self._original_mass = self.env.unwrapped.model.body_mass.copy()
 
 
 
@@ -100,8 +117,24 @@ class TargetDomainWrapper(gym.Wrapper):
 		# 注意参数都是在原始值的基础上进行缩放，而不是每次叠加乘法
 		model.opt.gravity[2] = self._original_gravity[2] * self.gravity_scale 
 		model.geom_friction[:, 0] = self._original_friction[:, 0] * self.friction_scale
-		model.body_mass[:] = self._original_mass * self.mass_scale
 		model.actuator_gear[:] = self._original_gear * self.gear_scale
+		# model.body_mass[:] = self._original_mass * self.mass_scale
+		for i in range(model.nbody):
+			name = model.mjid2name(model, mujoco.mjtObj.mjOBJ_BODY, i)
+			if name == "torso":
+				model.body_mass[i] = self._original_mass[i] * self.torso_mass_scale
+			elif name == "bthigh":
+				model.body_mass[i] = self._original_mass[i] * self.bthigh_mass_scale
+			elif name == "bshin":
+				model.body_mass[i] = self._original_mass[i] * self.bshin_mass_scale
+			elif name == "bfoot":
+				model.body_mass[i] = self._original_mass[i] * self.bfoot_mass_scale
+			elif name == "fthigh":
+				model.body_mass[i] = self._original_mass[i] * self.fthigh_mass_scale
+			elif name == "fshin":
+				model.body_mass[i] = self._original_mass[i] * self.fshin_mass_scale
+			elif name == "ffoot":
+				model.body_mass[i] = self._original_mass[i] * self.ffoot_mass_scale
   
 	
 	def add_obs_noise(self, obs):
@@ -124,11 +157,27 @@ class TargetDomainWrapper(gym.Wrapper):
 			return np.clip(noisy_action, self.action_space.low, self.action_space.high)
 		return action
 	
-	def update_params(self, gravity_scale=None, friction_scale=None, mass_scale=None, gear_scale=None): 
+	def update_params(self, 
+                   gravity_scale=None, 
+                   friction_scale=None, 
+                   gear_scale=None,
+				   torso_mass_scale=None,
+				   bthigh_mass_scale=None,
+				   bshin_mass_scale=None,
+				   bfoot_mass_scale=None,
+				   fthigh_mass_scale=None,
+				   fshin_mass_scale=None,
+				   ffoot_mass_scale=None): 
 		self.gravity_scale = gravity_scale if gravity_scale is not None else self.gravity_scale
 		self.friction_scale = friction_scale if friction_scale is not None else self.friction_scale
-		self.mass_scale = mass_scale if mass_scale is not None else self.mass_scale
 		self.gear_scale = gear_scale if gear_scale is not None else self.gear_scale
+		self.torso_mass_scale = torso_mass_scale if torso_mass_scale is not None else self.torso_mass_scale
+		self.bthigh_mass_scale = bthigh_mass_scale if bthigh_mass_scale is not None else self.bthigh_mass_scale
+		self.bshin_mass_scale = bshin_mass_scale if bshin_mass_scale is not None else self.bshin_mass_scale
+		self.bfoot_mass_scale = bfoot_mass_scale if bfoot_mass_scale is not None else self.bfoot_mass_scale
+		self.fthigh_mass_scale = fthigh_mass_scale if fthigh_mass_scale is not None else self.fthigh_mass_scale
+		self.fshin_mass_scale = fshin_mass_scale if fshin_mass_scale is not None else self.fshin_mass_scale
+		self.ffoot_mass_scale = ffoot_mass_scale if ffoot_mass_scale is not None else self.ffoot_mass_scale
 		self.modified = False
 
 class PhysicsRandomizer:
@@ -138,8 +187,14 @@ class PhysicsRandomizer:
 		{
 			"gravity_scale": [0.5, 1.5],
 			"friction_scale": [0.5, 2.5],
-			"mass_scale": [0.6, 1.4],
 			"gear_scale": [0.8, 1.2],
+			"torso_mass_scale": [0.5, 1.5],	
+			"bthigh_mass_scale": [0.5, 1.5],
+			"bshin_mass_scale": [0.5, 1.5],
+			"bfoot_mass_scale": [0.5, 1.5],
+			"fthigh_mass_scale": [0.5, 1.5],
+			"fshin_mass_scale": [0.5, 1.5],
+			"ffoot_mass_scale": [0.5, 1.5],
 		}
 		"""
 		self.param_ranges = param_ranges

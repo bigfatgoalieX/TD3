@@ -53,8 +53,8 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
     
-    attempt = 4
-    file_name = f"{args.policy}_{args.env}_{args.seed}_dr_{attempt}"
+    attempt = 1
+    file_name = f"{args.policy}_{args.env}_{args.seed}_highdim_dr_{attempt}"
     print("---------------------------------------")
     print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}")
     print("---------------------------------------")
@@ -104,19 +104,33 @@ if __name__ == "__main__":
     evaluations = [eval_policy(policy, args.env, args.seed)]
     
     param_ranges = {
-        "gravity_scale": [0.8, 1.2],
-        "friction_scale": [0.7, 1.3],
-        "mass_scale": [0.9, 1.1],
+        "gravity_scale": [0.5, 1.5],
+        "friction_scale": [0.5, 2.5],
+        "gear_scale": [0.8, 1.2],
+        "torso_mass_scale": [0.7, 1.3],
+        "bthigh_mass_scale": [0.7, 1.3],
+        "bshin_mass_scale": [0.7, 1.3],
+        "bfoot_mass_scale": [0.7, 1.3],
+        "fthigh_mass_scale": [0.7, 1.3],
+        "fshin_mass_scale": [0.7, 1.3],
+        "ffoot_mass_scale": [0.7, 1.3],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
-    gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
+    gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale, mu = randomizer.sample()
     env = utils.TargetDomainWrapper(
         env,
         gravity_scale=gravity_scale,
         friction_scale=friction_scale,
-        mass_scale=mass_scale,
+        gear_scale=gear_scale,
+        torso_mass_scale=torso_mass_scale,
+        bthigh_mass_scale=bthigh_mass_scale,
+        bshin_mass_scale=bshin_mass_scale,
+        bfoot_mass_scale=bfoot_mass_scale,
+        fthigh_mass_scale=fthigh_mass_scale,
+        fshin_mass_scale=fshin_mass_scale,
+        ffoot_mass_scale=ffoot_mass_scale,
     )
-    
+
     state, _ = env.reset()
     episode_reward = 0
     episode_timesteps = 0
@@ -148,9 +162,9 @@ if __name__ == "__main__":
         if done:
             print(f"Total T: {t+1} Episode Num: {episode_num+1} Episode T: {episode_timesteps} Reward: {episode_reward:.3f}")
             
-            gravity_scale, friction_scale, mass_scale, mu = randomizer.sample()
-            env.update_params(gravity_scale, friction_scale, mass_scale)
-            
+            gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale, mu = randomizer.sample()
+            env.update_params(gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale)
+
             state, _ = env.reset()
             episode_reward = 0
             episode_timesteps = 0
