@@ -57,7 +57,7 @@ if __name__ == "__main__":
     parser.add_argument("--load_model", default="")  # Model load file name, "" doesn't load, "default" uses file_name
     args = parser.parse_args()
 
-    attempt = 1
+    attempt = 2
     file_name = f"{args.policy}_{args.env}_{args.seed}_highdim_{attempt}"
     print("---------------------------------------")
     print(f"Policy: {args.policy}, Env: {args.env}, Seed: {args.seed}, Attempt: {attempt}")
@@ -110,16 +110,16 @@ if __name__ == "__main__":
     evaluations = [eval_policy(policy, args.env, args.seed)]
     
     param_ranges = {
-        "gravity_scale": [0.5, 1.5],
+        "gravity_scale": [0.6, 1.5],
         "friction_scale": [0.5, 2.5],
-        "gear_scale": [0.8, 1.2],
-        "torso_mass_scale": [0.7, 1.3],
-        "bthigh_mass_scale": [0.7, 1.3],
-        "bshin_mass_scale": [0.7, 1.3],
-        "bfoot_mass_scale": [0.7, 1.3],
-        "fthigh_mass_scale": [0.7, 1.3],
-        "fshin_mass_scale": [0.7, 1.3],
-        "ffoot_mass_scale": [0.7, 1.3],
+        "gear_scale": [0.75, 1.0],
+        "torso_mass_scale": [0.8, 1.2],
+        "bthigh_mass_scale": [0.8, 1.2],
+        "bshin_mass_scale": [0.8, 1.2],
+        "bfoot_mass_scale": [0.8, 1.2],
+        "fthigh_mass_scale": [0.8, 1.2],
+        "fshin_mass_scale": [0.8, 1.2],
+        "ffoot_mass_scale": [0.8, 1.2],
     }
     randomizer = utils.PhysicsRandomizer(param_ranges)
     gravity_scale, friction_scale, gear_scale, torso_mass_scale, bthigh_mass_scale, bshin_mass_scale, bfoot_mass_scale, fthigh_mass_scale, fshin_mass_scale, ffoot_mass_scale, mu = randomizer.sample()

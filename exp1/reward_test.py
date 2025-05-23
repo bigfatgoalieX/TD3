@@ -26,12 +26,14 @@ def evaluate_actor(actor, env, episodes=10):
             episode_reward += reward
             done = terminated or truncated
 
-        print(f"Episode {ep+1} Reward: {episode_reward:.2f}")
+        # print(f"Episode {ep+1} Reward: {episode_reward:.2f}")
         total_rewards.append(episode_reward)
 
     avg_reward = np.mean(total_rewards)
+    reward_std = np.std(total_rewards)
     print("---------------------------------------")
     print(f"Average Reward over {episodes} episodes: {avg_reward:.2f}")
+    print(f"Reward Standard Deviation: {reward_std:.2f}")
     print("---------------------------------------")
     return avg_reward
 
@@ -67,4 +69,5 @@ if __name__ == "__main__":
     actor.eval()
 
     # 跑 10 个 episode 并评估表现
+    print("Testing with gravity_scale = ", args.gravity, ", friction_scale = ", args.friction, ", mass_scale = ", args.mass)
     evaluate_actor(actor, target_env, NUM_EPISODES)

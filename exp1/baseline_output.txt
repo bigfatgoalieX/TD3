@@ -1,0 +1,53 @@
+================================ 
+Run started at 2025/05/20 ÖÜ¶þ 17:01:14.83 
+================================ 
+Testing with gravity_scale =  1.0 , friction_scale =  1.0 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 10221.95
+Reward Standard Deviation: 120.22
+---------------------------------------
+Testing with gravity_scale =  0.6 , friction_scale =  1.0 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 9171.28
+Reward Standard Deviation: 155.53
+---------------------------------------
+Testing with gravity_scale =  1.0 , friction_scale =  2.0 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 9461.17
+Reward Standard Deviation: 176.75
+---------------------------------------
+Testing with gravity_scale =  1.0 , friction_scale =  1.0 , mass_scale =  1.5
+---------------------------------------
+Average Reward over 10 episodes: 5582.83
+Reward Standard Deviation: 101.60
+---------------------------------------
+Testing with gravity_scale =  1.4 , friction_scale =  2.0 , mass_scale =  1.5
+---------------------------------------
+Average Reward over 10 episodes: 2985.57
+Reward Standard Deviation: 171.92
+---------------------------------------
+Testing with gravity_scale =  2.0 , friction_scale =  1.0 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 3129.60
+Reward Standard Deviation: 63.23
+---------------------------------------
+Testing with gravity_scale =  1.0 , friction_scale =  3.0 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 6580.47
+Reward Standard Deviation: 341.79
+---------------------------------------
+Testing with gravity_scale =  1.0 , friction_scale =  1.0 , mass_scale =  2.0
+---------------------------------------
+Average Reward over 10 episodes: 3076.43
+Reward Standard Deviation: 137.44
+---------------------------------------
+Testing with gravity_scale =  0.5 , friction_scale =  0.5 , mass_scale =  1.0
+---------------------------------------
+Average Reward over 10 episodes: 9032.26
+Reward Standard Deviation: 166.72
+---------------------------------------
+Testing with gravity_scale =  1.5 , friction_scale =  2.5 , mass_scale =  1.6
+---------------------------------------
+Average Reward over 10 episodes: 1778.46
+Reward Standard Deviation: 253.98
+---------------------------------------

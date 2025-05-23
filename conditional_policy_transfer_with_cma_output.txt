@@ -1,0 +1,333 @@
+================================ 
+Run started at 2025/05/20 ÖÜ¶ş 18:11:32.99 
+================================ 
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=838277, Tue May 20 18:11:35 2025)
+[Gen 0] Best reward: 1878.95
+[Gen 1] Best reward: 5807.57
+[Gen 2] Best reward: 7524.19
+[Gen 3] Best reward: 8304.79
+[Gen 4] Best reward: 8257.81
+[Gen 5] Best reward: 8747.07
+[Gen 6] Best reward: 8973.57
+[Gen 7] Best reward: 8787.78
+[Gen 8] Best reward: 8674.70
+[Gen 9] Best reward: 8796.66
+[Gen 10] Best reward: 8622.28
+[Gen 11] Best reward: 8912.20
+[Gen 12] Best reward: 8857.87
+[Gen 13] Best reward: 8838.78
+[Gen 14] Best reward: 8977.91
+[Gen 15] Best reward: 8869.91
+[Gen 16] Best reward: 8961.44
+[Gen 17] Best reward: 9019.82
+[Gen 18] Best reward: 9051.27
+[Gen 19] Best reward: 9054.61
+[Gen 20] Best reward: 9038.44
+[Gen 21] Best reward: 9043.39
+[Gen 22] Best reward: 9003.95
+[Gen 23] Best reward: 8922.89
+[Gen 24] Best reward: 8922.11
+[Gen 25] Best reward: 9068.72
+[Gen 26] Best reward: 9006.90
+[Gen 27] Best reward: 9030.56
+[Gen 28] Best reward: 9076.50
+[Gen 29] Best reward: 9123.98
+
+ Optimization finished. Best mu' found: [1.01303549 0.77234439 0.93826663]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=851574, Tue May 20 18:16:31 2025)
+[Gen 0] Best reward: 8154.59
+[Gen 1] Best reward: 8936.98
+[Gen 2] Best reward: 7735.86
+[Gen 3] Best reward: 8385.94
+[Gen 4] Best reward: 8997.54
+[Gen 5] Best reward: 8962.77
+[Gen 6] Best reward: 8991.64
+[Gen 7] Best reward: 9091.49
+[Gen 8] Best reward: 8993.03
+[Gen 9] Best reward: 8904.78
+[Gen 10] Best reward: 8887.55
+[Gen 11] Best reward: 9076.35
+[Gen 12] Best reward: 9018.47
+[Gen 13] Best reward: 9074.22
+[Gen 14] Best reward: 9004.32
+[Gen 15] Best reward: 9017.13
+[Gen 16] Best reward: 8996.26
+[Gen 17] Best reward: 8970.37
+[Gen 18] Best reward: 8982.49
+[Gen 19] Best reward: 9225.46
+[Gen 20] Best reward: 9057.22
+[Gen 21] Best reward: 9089.51
+[Gen 22] Best reward: 9028.07
+[Gen 23] Best reward: 9005.77
+[Gen 24] Best reward: 8960.77
+[Gen 25] Best reward: 9168.86
+[Gen 26] Best reward: 9031.25
+[Gen 27] Best reward: 9074.99
+[Gen 28] Best reward: 9012.57
+[Gen 29] Best reward: 9068.08
+
+ Optimization finished. Best mu' found: [0.57994247 0.36611971 1.22544383]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=858932, Tue May 20 18:21:34 2025)
+[Gen 0] Best reward: 3415.20
+[Gen 1] Best reward: 5523.54
+[Gen 2] Best reward: 5189.89
+[Gen 3] Best reward: 7407.77
+[Gen 4] Best reward: 7019.50
+[Gen 5] Best reward: 8248.09
+[Gen 6] Best reward: 7242.39
+[Gen 7] Best reward: 7725.69
+[Gen 8] Best reward: 8016.43
+[Gen 9] Best reward: 8348.32
+[Gen 10] Best reward: 8290.76
+[Gen 11] Best reward: 8434.94
+[Gen 12] Best reward: 8626.78
+[Gen 13] Best reward: 8439.52
+[Gen 14] Best reward: 8651.62
+[Gen 15] Best reward: 8604.11
+[Gen 16] Best reward: 8610.25
+[Gen 17] Best reward: 8610.90
+[Gen 18] Best reward: 8763.07
+[Gen 19] Best reward: 8726.25
+[Gen 20] Best reward: 8840.52
+[Gen 21] Best reward: 8729.35
+[Gen 22] Best reward: 8853.84
+[Gen 23] Best reward: 8805.11
+[Gen 24] Best reward: 8839.90
+[Gen 25] Best reward: 8791.38
+[Gen 26] Best reward: 8870.87
+[Gen 27] Best reward: 8730.10
+[Gen 28] Best reward: 8840.42
+[Gen 29] Best reward: 8862.40
+
+ Optimization finished. Best mu' found: [1.01973284 2.04905762 1.22613391]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=857079, Tue May 20 18:25:54 2025)
+[Gen 0] Best reward: 1133.31
+[Gen 1] Best reward: 4064.43
+[Gen 2] Best reward: 5288.41
+[Gen 3] Best reward: 4240.32
+[Gen 4] Best reward: 6251.02
+[Gen 5] Best reward: 5954.24
+[Gen 6] Best reward: 5763.38
+[Gen 7] Best reward: 6190.01
+[Gen 8] Best reward: 6306.97
+[Gen 9] Best reward: 6419.95
+[Gen 10] Best reward: 6190.64
+[Gen 11] Best reward: 6279.10
+[Gen 12] Best reward: 6386.90
+[Gen 13] Best reward: 6379.39
+[Gen 14] Best reward: 6408.91
+[Gen 15] Best reward: 6412.99
+[Gen 16] Best reward: 6411.93
+[Gen 17] Best reward: 6488.61
+[Gen 18] Best reward: 6384.34
+[Gen 19] Best reward: 6413.30
+[Gen 20] Best reward: 6430.95
+[Gen 21] Best reward: 6466.71
+[Gen 22] Best reward: 6473.03
+[Gen 23] Best reward: 6460.85
+[Gen 24] Best reward: 6433.98
+[Gen 25] Best reward: 6439.11
+[Gen 26] Best reward: 6432.86
+[Gen 27] Best reward: 6470.27
+[Gen 28] Best reward: 6507.61
+[Gen 29] Best reward: 6424.17
+
+ Optimization finished. Best mu' found: [0.87235491 1.2308097  1.63633871]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=786020, Tue May 20 18:30:06 2025)
+[Gen 0] Best reward: -442.44
+[Gen 1] Best reward: -264.18
+[Gen 2] Best reward: -200.10
+[Gen 3] Best reward: 1301.03
+[Gen 4] Best reward: 2708.36
+[Gen 5] Best reward: 3889.15
+[Gen 6] Best reward: 4121.37
+[Gen 7] Best reward: 4131.24
+[Gen 8] Best reward: 3713.00
+[Gen 9] Best reward: 2069.42
+[Gen 10] Best reward: 2380.19
+[Gen 11] Best reward: 4152.80
+[Gen 12] Best reward: 3956.73
+[Gen 13] Best reward: 4020.27
+[Gen 14] Best reward: 4215.85
+[Gen 15] Best reward: 4181.20
+[Gen 16] Best reward: 4217.32
+[Gen 17] Best reward: 4226.88
+[Gen 18] Best reward: 4263.11
+[Gen 19] Best reward: 4253.59
+[Gen 20] Best reward: 4253.74
+[Gen 21] Best reward: 4254.83
+[Gen 22] Best reward: 4284.81
+[Gen 23] Best reward: 4299.13
+[Gen 24] Best reward: 4294.23
+[Gen 25] Best reward: 4290.81
+[Gen 26] Best reward: 4242.65
+[Gen 27] Best reward: 4275.09
+[Gen 28] Best reward: 4304.18
+[Gen 29] Best reward: 4310.20
+
+ Optimization finished. Best mu' found: [1.69975576 2.43413746 1.08921756]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=878541, Tue May 20 18:34:32 2025)
+[Gen 0] Best reward: -248.91
+[Gen 1] Best reward: 2517.37
+[Gen 2] Best reward: 4140.03
+[Gen 3] Best reward: 4268.01
+[Gen 4] Best reward: 4372.75
+[Gen 5] Best reward: 4375.34
+[Gen 6] Best reward: 4166.31
+[Gen 7] Best reward: 4258.99
+[Gen 8] Best reward: 4400.52
+[Gen 9] Best reward: 4524.70
+[Gen 10] Best reward: 4419.80
+[Gen 11] Best reward: 4459.99
+[Gen 12] Best reward: 4514.58
+[Gen 13] Best reward: 4578.21
+[Gen 14] Best reward: 4557.36
+[Gen 15] Best reward: 4605.32
+[Gen 16] Best reward: 4556.46
+[Gen 17] Best reward: 4598.16
+[Gen 18] Best reward: 4586.52
+[Gen 19] Best reward: 4645.06
+[Gen 20] Best reward: 4591.02
+[Gen 21] Best reward: 4613.70
+[Gen 22] Best reward: 4593.92
+[Gen 23] Best reward: 4611.38
+[Gen 24] Best reward: 4601.67
+[Gen 25] Best reward: 4591.72
+[Gen 26] Best reward: 4623.01
+[Gen 27] Best reward: 4623.83
+[Gen 28] Best reward: 4599.87
+[Gen 29] Best reward: 4647.83
+
+ Optimization finished. Best mu' found: [1.89696887 1.47935289 1.03014024]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=855444, Tue May 20 18:39:00 2025)
+[Gen 0] Best reward: 3666.97
+[Gen 1] Best reward: 4363.00
+[Gen 2] Best reward: 3708.84
+[Gen 3] Best reward: 4147.70
+[Gen 4] Best reward: 4221.54
+[Gen 5] Best reward: 5010.27
+[Gen 6] Best reward: 5604.71
+[Gen 7] Best reward: 5506.43
+[Gen 8] Best reward: 5911.93
+[Gen 9] Best reward: 7561.69
+[Gen 10] Best reward: 6993.35
+[Gen 11] Best reward: 6255.46
+[Gen 12] Best reward: 7687.06
+[Gen 13] Best reward: 7221.85
+[Gen 14] Best reward: 7539.38
+[Gen 15] Best reward: 7773.60
+[Gen 16] Best reward: 7786.22
+[Gen 17] Best reward: 7810.33
+[Gen 18] Best reward: 7837.59
+[Gen 19] Best reward: 7869.27
+[Gen 20] Best reward: 7889.72
+[Gen 21] Best reward: 7834.77
+[Gen 22] Best reward: 7917.88
+[Gen 23] Best reward: 7883.53
+[Gen 24] Best reward: 7854.16
+[Gen 25] Best reward: 7894.92
+[Gen 26] Best reward: 7980.75
+[Gen 27] Best reward: 7903.84
+[Gen 28] Best reward: 7952.30
+[Gen 29] Best reward: 7945.87
+
+ Optimization finished. Best mu' found: [1.17233642 3.48180736 0.9270662 ]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=799443, Tue May 20 18:44:05 2025)
+[Gen 0] Best reward: -155.76
+[Gen 1] Best reward: 2559.35
+[Gen 2] Best reward: 4016.69
+[Gen 3] Best reward: 3709.01
+[Gen 4] Best reward: 3923.11
+[Gen 5] Best reward: 3942.76
+[Gen 6] Best reward: 4014.35
+[Gen 7] Best reward: 4009.22
+[Gen 8] Best reward: 4028.43
+[Gen 9] Best reward: 4041.58
+[Gen 10] Best reward: 4045.93
+[Gen 11] Best reward: 4085.71
+[Gen 12] Best reward: 4089.37
+[Gen 13] Best reward: 4059.36
+[Gen 14] Best reward: 4083.24
+[Gen 15] Best reward: 4081.61
+[Gen 16] Best reward: 4078.58
+[Gen 17] Best reward: 4093.99
+[Gen 18] Best reward: 4104.17
+[Gen 19] Best reward: 4090.80
+[Gen 20] Best reward: 4076.07
+[Gen 21] Best reward: 4093.04
+[Gen 22] Best reward: 4080.48
+[Gen 23] Best reward: 4086.80
+[Gen 24] Best reward: 4097.90
+[Gen 25] Best reward: 4112.69
+[Gen 26] Best reward: 4096.25
+[Gen 27] Best reward: 4077.86
+[Gen 28] Best reward: 4099.11
+[Gen 29] Best reward: 4070.87
+
+ Optimization finished. Best mu' found: [1.4144927  0.43129054 1.61134432]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=833081, Tue May 20 18:48:29 2025)
+[Gen 0] Best reward: 4590.66
+[Gen 1] Best reward: 7350.83
+[Gen 2] Best reward: 7528.29
+[Gen 3] Best reward: 8317.28
+[Gen 4] Best reward: 8083.84
+[Gen 5] Best reward: 8248.49
+[Gen 6] Best reward: 8622.76
+[Gen 7] Best reward: 8364.33
+[Gen 8] Best reward: 8432.29
+[Gen 9] Best reward: 8487.00
+[Gen 10] Best reward: 8440.70
+[Gen 11] Best reward: 8488.20
+[Gen 12] Best reward: 8590.45
+[Gen 13] Best reward: 8534.78
+[Gen 14] Best reward: 8650.12
+[Gen 15] Best reward: 8581.56
+[Gen 16] Best reward: 8684.45
+[Gen 17] Best reward: 8708.50
+[Gen 18] Best reward: 8675.69
+[Gen 19] Best reward: 8621.76
+[Gen 20] Best reward: 8549.13
+[Gen 21] Best reward: 8676.26
+[Gen 22] Best reward: 8596.23
+[Gen 23] Best reward: 8721.69
+[Gen 24] Best reward: 8689.25
+[Gen 25] Best reward: 8758.10
+[Gen 26] Best reward: 8566.69
+[Gen 27] Best reward: 8683.00
+[Gen 28] Best reward: 8701.05
+[Gen 29] Best reward: 8578.89
+
+ Optimization finished. Best mu' found: [0.62067913 0.71287624 1.23734209]
+(3_w,7)-aCMA-ES (mu_w=2.3,w_1=58%) in dimension 3 (seed=866941, Tue May 20 18:53:24 2025)
+[Gen 0] Best reward: 742.21
+[Gen 1] Best reward: 2000.64
+[Gen 2] Best reward: 2110.89
+[Gen 3] Best reward: 2225.89
+[Gen 4] Best reward: 2510.65
+[Gen 5] Best reward: 2087.76
+[Gen 6] Best reward: 2533.31
+[Gen 7] Best reward: 2261.44
+[Gen 8] Best reward: 2544.89
+[Gen 9] Best reward: 2514.05
+[Gen 10] Best reward: 2593.05
+[Gen 11] Best reward: 2548.85
+[Gen 12] Best reward: 2616.49
+[Gen 13] Best reward: 2722.76
+[Gen 14] Best reward: 2758.08
+[Gen 15] Best reward: 2807.66
+[Gen 16] Best reward: 2833.09
+[Gen 17] Best reward: 2721.58
+[Gen 18] Best reward: 2788.90
+[Gen 19] Best reward: 2794.86
+[Gen 20] Best reward: 2796.78
+[Gen 21] Best reward: 2827.82
+[Gen 22] Best reward: 2797.11
+[Gen 23] Best reward: 2790.31
+[Gen 24] Best reward: 2690.93
+[Gen 25] Best reward: 2831.03
+[Gen 26] Best reward: 2769.74
+[Gen 27] Best reward: 2744.33
+[Gen 28] Best reward: 2891.74
+[Gen 29] Best reward: 2747.82
+
+ Optimization finished. Best mu' found: [0.81810841 1.24085578 2.5783682 ]

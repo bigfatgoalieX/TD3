@@ -120,7 +120,7 @@ class TargetDomainWrapper(gym.Wrapper):
 		model.actuator_gear[:] = self._original_gear * self.gear_scale
 		# model.body_mass[:] = self._original_mass * self.mass_scale
 		for i in range(model.nbody):
-			name = model.mjid2name(model, mujoco.mjtObj.mjOBJ_BODY, i)
+			name = mujoco.mj_id2name(model, mujoco.mjtObj.mjOBJ_BODY, i)
 			if name == "torso":
 				model.body_mass[i] = self._original_mass[i] * self.torso_mass_scale
 			elif name == "bthigh":
